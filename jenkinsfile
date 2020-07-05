@@ -1,27 +1,39 @@
 pipeline
 {
-    agent any
-    stages
-    {
-        stage ('scm checkout')
-        {steps
-        git branch: 'master' , url:'https://github.com/amruta-patinge/maven-project'
-        }
-        stage ('please compile code')
-        {steps
-        withMaven(jdk: 'LocalJDK', maven: 'LocalMaven')
-        {sh 'mvn compile'}
-        }
-        stage('please test code')
-       { steps 
-           withMaven(jdk: 'LocalJDK', maven: 'localmaven')
-            
-            {sh 'mvn test'}
+   agent any
+   stages
+   { 
+       stage('scm checkout')
+       {
+           steps {
+               git branch: 'master', url: 'https://github.com/amruta-patinge/maven-project'
+                 }
        }
-       stage('please build code')
-       { steps
-           withMaven(jdk: 'LocalJDK', maven: 'localmaven')
-            { sh 'mvn package'}
+
+       stage('please compile code')
+       { steps {
+           withMaven(jdk: 'LocalJDK', maven: 'localmaven') {
+            sh 'mvn compile'
+}
        }
-    }
+
+       }
+      
+           stage('please test code')
+       { steps {
+           withMaven(jdk: 'LocalJDK', maven: 'localmaven') {
+            sh 'mvn test'
+}
+       }
+
+       }
+        stage('please build code')
+       { steps {
+           withMaven(jdk: 'LocalJDK', maven: 'localmaven') {
+            sh 'mvn package'
+}
+       }
+
+       }
+   } 
 }
